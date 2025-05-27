@@ -1,0 +1,4 @@
+opencv-python
+albumentations
+pillow
+tqdm
