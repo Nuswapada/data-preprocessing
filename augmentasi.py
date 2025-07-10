@@ -10,7 +10,6 @@ output_root = r'D:\data-preprocessing\dataset-aug'
 # Transformasi augmentasi
 transform = A.Compose([
     A.HorizontalFlip(p=0.5),
-    A.RandomBrightnessContrast(p=0.5),
     A.Rotate(limit=20, p=0.5),
     A.ShiftScaleRotate(shift_limit=0.05, scale_limit=0.1, rotate_limit=15, p=0.5),
     A.Blur(p=0.2),

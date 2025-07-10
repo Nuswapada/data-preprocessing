@@ -1,76 +1,129 @@
-# 🖼️ Image Resize & Augmentation Script
+# 🖼️ Image Preprocessing & Augmentation Toolkit
 
-Proyek ini digunakan untuk melakukan **resize gambar ke 224x224** dan **augmentasi data gambar** menggunakan `albumentations` dan `opencv`. Cocok untuk persiapan dataset image classification atau object detection.
+Toolkit ini digunakan untuk mempersiapkan dataset gambar sebelum digunakan untuk training model image classification atau object detection. Fitur-fitur utama meliputi:
+
+- **Resize semua gambar ke 224x224**
+- **Konversi format ke `.jpg`**
+- **Augmentasi gambar (flip, rotate, blur, dll)**
+- **Rename gambar agar konsisten**
+
+Seluruh proses otomatis mempertahankan struktur folder per kelas (class-based folders).
+
+---
 
 ## 📁 Struktur Folder
 
 ```
-.
-├── dataset/                   # Folder gambar original (per kelas)
+project/
+├── dataset/                    # Folder original berisi gambar (per kelas)
 │   ├── rumah-hakim/
-│   └── ...
-├── dataset_224x/             # Output gambar resize ke 224x224 (struktur tetap)
-├── dataset-aug/
-│   ├── rumah-hakim-aug/      # Output augmentasi gambar
-├── resize.py                 # Script resize
-├── augmentasi.py            # Script augmentasi
-├── rename_augmented.py      # Rename file hasil augmentasi
-└── requirements.txt         # Dependency Python
+│   
+├── dataset_224x/              # Output hasil resize 224x224
+├── dataset-aug/               # Output hasil augmentasi
+│   ├── rumah-hakim/
+│
+├── resize.py                  # Script resize gambar
+├── augmentasi.py              # Script augmentasi
+├── labelling.py               # Rename hasil augmentasi
+├── formatting.py              # Konversi format ke JPG
+├── requirements.txt           # Daftar dependency Python
+└── README.md
 ```
 
-## 🧰 Fitur Script
+---
 
-### ✅ Resize ke 224x224
+## ⚙️ Fitur Script
 
-* Input: `dataset/`
-* Output: `dataset_224x/`
-* Semua gambar di-resize jadi 224x224 pixel.
+### 🔄 1. Resize ke 224x224
 
-### ✅ Augmentasi Gambar
+- Input: `dataset/`
+- Output: `dataset_224x/`
+- Semua gambar akan disimpan dalam ukuran fix 224x224 pixel.
 
-* Augmentasi `HorizontalFlip`, `Rotate`, `Brightness/Contrast`, `ShiftScaleRotate`, dan `Blur`.
-* Menyimpan gambar original + N hasil augmentasi (default 7).
+### 🧪 2. Augmentasi Gambar
 
-### ✅ Rename Otomatis
+- Library: `albumentations`, `opencv-python`
+- Augmentasi meliputi:
+  - Horizontal Flip
+  - Rotate
+  - Brightness/Contrast
+  - ShiftScaleRotate
+  - Blur
+- Output disimpan di `dataset-aug/` dengan struktur folder yang sama.
 
-* Rename semua gambar augmentasi jadi format konsisten: `rumah-hakim_1.jpg`, `rumah-hakim_2.jpg`, dst.
+### 🏷️ 3. Rename Otomatis
 
-## 💻 Cara Jalankan
+- Semua gambar hasil augmentasi akan diberi nama ulang menjadi:
+  ```
+  <nama_kelas>_<index>.jpg
+  ```
 
-1. **Clone repo atau siapkan folder project**
-2. Install dependency:
+### 🧼 4. Format Converter
+
+- Semua file (misalnya `.webp`, `.png`, `.jpeg`) akan dikonversi ke `.jpg` dan format warna ke RGB.
+- Dijalankan sebelum proses resize atau augmentasi.
+
+---
+
+## 🚀 Cara Menjalankan
+
+1. **Persiapkan struktur folder awal di `dataset/`**
+2. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
-3. Jalankan script:
 
-   * Resize:
+3. Jalankan script sesuai urutan:
 
-     ```bash
-     python resize.py
-     ```
-   * Augmentasi:
+   ### 🔧 Format Konversi (Opsional tapi disarankan)
+   ```bash
+   python format_convert.py
+   ```
 
-     ```bash
-     python augmentasi.py
-     ```
-   * Rename:
+   ### 🪄 Resize Gambar
+   ```bash
+   python resize.py
+   ```
 
-     ```bash
-     python rename_augmented.py
-     ```
+   ### 🎨 Augmentasi Gambar
+   ```bash
+   python augmentasi.py
+   ```
 
-## 📆 Dependencies
-
-Lihat `requirements.txt` untuk daftar lengkap.
-
-## 😤 Catatan Penting
-
-* Gambar original **harus sudah rapi dan bersih** (hindari noise/background acak).
-* Semua hasil resize dan augmentasi otomatis jadi 224x224.
-* Jangan ubah nama folder atau struktur seenaknya, nanti error ya, *baka!*
+   ### ✍️ Rename File Augmented
+   ```bash
+   python rename_augmented.py
+   ```
 
 ---
 
-**By:** Tim AI ✨
+## 📦 Requirements
+
+Daftar dependencies (lihat juga di `requirements.txt`):
+
+- pillow
+- opencv-python
+- albumentations
+- tqdm
+
+Install semua sekaligus:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🧠 Tips Penting
+
+- Pastikan struktur folder di `dataset/` sudah per kelas.
+- Hindari file kosong, korup, atau berekstensi aneh.
+- Jangan lupa cek hasil akhir di `dataset_224x/` dan `dataset-aug/` sebelum training.
+
+---
+
+## 🙋‍♀️ Credits & Notes
+
+> Dibuat dengan semangat penuh cinta oleh Tim AI.  
+> Gunakan dengan bijak — jangan cuma augmentasi gambar, tapi juga semangat kamu! 🚀💪
